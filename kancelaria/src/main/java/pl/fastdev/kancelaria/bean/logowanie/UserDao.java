@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import pl.fastdev.kancelaria.model.SecurityRoleEntity;
@@ -32,7 +33,7 @@ public class UserDao {
 		}
 	}
 	
-	@Transactional
+	@Transactional(propagation=Propagation.NESTED)
 	public void addRoleToUser(UserEntity user, Rola rola) throws UserModificationException {
 		UserEntity u = findByName(user.getUsername());
 		
@@ -70,24 +71,4 @@ public class UserDao {
 			return false;
 		}
 	}
-	
-	@Transactional
-	public boolean login(UserEntity user) {
-		if (user != null) {
-			List<UserEntity> result = em.createQuery("from userEntity where username = :username and password = :password")
-			.setParameter("username", user.getUsername()).setParameter("password", user.getPassword()).getResultList();
-			
-			if (result != null && result.size() == 1) {
-				System.out.println("zalogowac");
-				return true;
-			} else {
-				System.out.println("nie logowac 1");
-				return false;
-			}
-		} else {
-			System.out.println("from User where username=:username" + user.getUsername() + " and password=:password" + user.getPassword() + "nie logowac 2");
-			return false;
-		}
-	}
-
 }

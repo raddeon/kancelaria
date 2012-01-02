@@ -19,15 +19,14 @@
 				<h:outputLabel value="Hasło" for="pass" />
 				<h:inputText value="#{login.user.password}" id="pass" >
 				</h:inputText>
-				<h:selectOneMenu id="rola" value="#{login.rola}">
-				  <f:selectItems var="rola" value="#{slownikiEnum.role}" label="#{rola.nazwa}"/>
+				<h:selectOneMenu id="rola" value="#{login.rola}" >
+				  <f:selectItems var="rola" value="#{slownikiEnum.role}" label="#{rola.nazwa}" />
 				</h:selectOneMenu>
 				
 				
 				
 				<br />
 				<br />
-				<h:commandButton action="#{login.login}" value="Zaloguj" />
 				<h:commandButton action="#{login.save}" value="Dodaj usera" />
 				<h:commandButton action="#{login.addRole}" value="Dodaj role do usera" />
 				

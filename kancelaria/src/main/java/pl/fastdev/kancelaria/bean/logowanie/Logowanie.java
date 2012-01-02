@@ -23,17 +23,6 @@ public class Logowanie {
 	@Autowired
 	private UserDao userDao;
 	
-	public void login() {
-		for (FacesMessage m : FacesContext.getCurrentInstance().getMessageList()) {
-			System.out.println(m.getDetail() + m.getSummary() + m.getClass());
-		}
-		if (userDao.login(user)) {
-			succ = "SUCCEDEDD";
-		} else {
-			succ = "FAIL";
-		}
-	}
-	
 	public void save() {
 		try {
 			userDao.save(user);
