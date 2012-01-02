@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/templates/template.xhtml">
+	<ui:define name="content">			
+		
+		<form name='f' action="j_spring_security_check" method='post'>
+ 
+		<table>
+			<tr>
+				<td>Użyszkodnik:</td>
+				<td><input type='text' name='j_username' value=''/>
+				</td>
+			</tr>
+			<tr>
+				<td>Hasło:</td>
+				<td><input type='password' name='j_password' />
+				</td>
+			</tr>
+			<tr>
+				<td colspan='2'><input name="submit" type="submit"
+					value="Zaloguj" />
+				</td>
+			</tr>
+		</table>
+ 
+	</form>
+	</ui:define>
+</ui:composition>

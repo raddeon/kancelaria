@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/template.xhtml">
+	<ui:define name="content">
+	<h1><h:outputText value="Kancelaria - logowanie" /></h1>
+		<br />
+		<br />
+		<h2>Proszę podać login i hasło</h2>
+		<h:form>
+			<div>
+				<h:outputLabel value="Login" for="login" />
+				<h:inputText value="#{login.user.username}" id="login" >
+					<!-- <f:validateRegex pattern="[A-Z]" /> -->
+				</h:inputText>
+				
+				<h:outputLabel value="Hasło" for="pass" />
+				<h:inputText value="#{login.user.password}" id="pass" >
+				</h:inputText>
+				<h:selectOneMenu id="rola" value="#{login.rola}">
+				  <f:selectItems var="rola" value="#{slownikiEnum.role}" label="#{rola.nazwa}"/>
+				</h:selectOneMenu>
+				
+				
+				
+				<br />
+				<br />
+				<h:commandButton action="#{login.login}" value="Zaloguj" />
+				<h:commandButton action="#{login.save}" value="Dodaj usera" />
+				<h:commandButton action="#{login.addRole}" value="Dodaj role do usera" />
+				
+				<h:outputText value="#{login.succ}" />
+			</div>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

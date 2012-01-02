@@ -1,0 +1,47 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+	<!-- <http auto-config="true" use-expressions="true"> <intercept-url pattern="/home*" 
+		access="isFullyAuthenticated()" /> <form-login login-page="/login.xhtml" 
+		default-target-url="/home.xhtml" authentication-failure-url="/auth_fail.xhtml" 
+		/> <logout logout-success-url="/index.jsf" /> </http> -->
+
+	<http auto-config="true" use-expressions="true" authentication-manager-ref="authenticationManager">
+		<intercept-url pattern="/login*"  access="permitAll"/>
+		<!--  wykomentowac zeby miec dostep do tworzenia roli -->
+		<intercept-url pattern="/administracja/*" access="isFullyAuthenticated() and hasRole('ADMIN')" />
+		<intercept-url pattern="/kancelaria/*" access="isFullyAuthenticated() and hasRole('PRACOWNIK')" />
+		<intercept-url pattern="/home*" access="isFullyAuthenticated()" />
+		<!--  wykomentowac zeby miec dostep do tworzenia użytkowników i roli -->
+		<form-login login-page="/login.xhtml" default-target-url="/home.xhtml"
+			authentication-failure-url="/auth_fail.xhtml" />
+	</http>
+
+
+
+	<!-- <authentication-manager> <authentication-provider> <user-service> <user 
+		name="aaa" password="aaa" authorities="ROLE_USER" /> </user-service> </authentication-provider> 
+		</authentication-manager> -->
+
+	<beans:bean id="daoAuthenticationProvider"
+		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<beans:property name="userDetailsService" ref="userDetailsService" />
+	</beans:bean>
+
+	<beans:bean id="authenticationManager"
+		class="org.springframework.security.authentication.ProviderManager">
+		<beans:property name="providers">
+			<beans:list>
+				<beans:ref local="daoAuthenticationProvider" />
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+	<authentication-manager>
+		<authentication-provider user-service-ref="userDetailsService">
+		</authentication-provider>
+	</authentication-manager>
+
+
+</beans:beans>
