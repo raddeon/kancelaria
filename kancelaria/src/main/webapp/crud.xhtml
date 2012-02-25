@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/WEB-INF/templates/template.xhtml">
+	<ui:define name="content">			
+		<h:form>
+			<fieldset style="column">
+				<legend>Dodawanie klienta</legend>
+				<div>
+					<h:outputLabel value="Nazwa" for="nazwa" />
+					<h:inputText id="nazwa" styleClass="column append-25" value="#{crud.klient.nazwa}" />
+				</div>
+				<div>
+					<h:outputLabel value="Nazwa pełna" for="nazwaPelna" />
+					<h:inputText id="nazwaPelna" value="#{crud.klient.nazwaPelna}" label="Nazwa pełna"/>
+				</div>
+			
+				
+				<h:commandButton type="submit" value="Dodaj klienta" action="#{crud.dodajKlienta()}"/>
+				<h:inputText id="message" value="#{crud.message}" label="Nazwa pełna"/>
+				
+			</fieldset>
+			
+		</h:form>
+
+ 
+	
+	</ui:define>
+</ui:composition>
