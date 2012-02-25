@@ -1,10 +1,10 @@
 package pl.fastdev.kancelaria.bean.logowanie;
 
-public class UserModificationException extends Exception {
+public class DuplicateEntityException extends Exception {
 	
 	private PrzyczynaBleduModyfikacji cause;
 
-	public UserModificationException(PrzyczynaBleduModyfikacji cause) {
+	public DuplicateEntityException(PrzyczynaBleduModyfikacji cause) {
 		this.cause = cause;
 	}
 

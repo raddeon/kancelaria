@@ -3,6 +3,7 @@ package pl.fastdev.kancelaria.bean.logowanie;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ public class UserDao {
 	private EntityManager em;
 	
 	@Transactional
-	public void save(UserEntity user) throws UserModificationException {
+	public void save(UserEntity user) throws DuplicateEntityException {
 		UserEntity newUser = new UserEntity();
 		
 		newUser.setUsername(user.getUsername());
@@ -27,14 +28,22 @@ public class UserDao {
 		
 		
 		if (!exists(newUser)) {
-			em.persist(newUser);
+			boolean done = false;
+			try {
+				em.persist(newUser);
+				done = true;
+			} finally {
+				if (done) {
+					em.close();
+				}
+			}
 		} else {
-			throw new UserModificationException(PrzyczynaBleduModyfikacji.JEST_JUZ_USER_O_TEJ_NAZWIE);
+			throw new DuplicateEntityException(PrzyczynaBleduModyfikacji.JEST_JUZ_USER_O_TEJ_NAZWIE);
 		}
 	}
 	
 	@Transactional(propagation=Propagation.NESTED)
-	public void addRoleToUser(UserEntity user, Rola rola) throws UserModificationException {
+	public void addRoleToUser(UserEntity user, Rola rola) throws DuplicateEntityException {
 		UserEntity u = findByName(user.getUsername());
 		
 		SecurityRoleEntity dodawanaRola = new SecurityRoleEntity(u.getId(), rola.name());
@@ -42,18 +51,18 @@ public class UserDao {
 			u.getRoles().add(new SecurityRoleEntity(u.getId(), rola.name()));
 			em.merge(u);
 		} else {
-			throw new UserModificationException(PrzyczynaBleduModyfikacji.WYBRANY_USER_MA_JUZ_TA_ROLE);
+			throw new DuplicateEntityException(PrzyczynaBleduModyfikacji.WYBRANY_USER_MA_JUZ_TA_ROLE);
 		}
 	}
 	
 	@Transactional
-	public UserEntity findByName(String username) throws UserModificationException {
-		UserEntity result = (UserEntity)em.createQuery("from userEntity where username = :username")
-		.setParameter("username", username).getSingleResult();
-		if (result != null) {
+	public UserEntity findByName(String username) throws DuplicateEntityException {
+		try {
+			UserEntity result = (UserEntity)em.createQuery("from userEntity where username = :username")
+			.setParameter("username", username).getSingleResult();
 			return em.find(UserEntity.class, result.getId());
-		} else {
-			throw new UserModificationException(PrzyczynaBleduModyfikacji.NIE_MA_USERA_O_TAKIM_USERNAME);
+		} catch (NoResultException ex) {
+			throw new DuplicateEntityException(PrzyczynaBleduModyfikacji.NIE_MA_USERA_O_TAKIM_USERNAME);
 		}
 	}
 	

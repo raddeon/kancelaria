@@ -34,6 +34,9 @@ public class UserEntity implements Serializable {
 	@Column
 	private boolean enabled;
 	
+	@Column
+	private String imieINazwisko;
+	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="userId")
 	private List<SecurityRoleEntity> roles;
@@ -63,6 +66,14 @@ public class UserEntity implements Serializable {
 		this.password = password;
 	}
 	
+	public String getImieINazwisko() {
+		return imieINazwisko;
+	}
+
+	public void setImieINazwisko(String imieINazwisko) {
+		this.imieINazwisko = imieINazwisko;
+	}
+
 	public boolean equals(Object o) {
 		if (o != null && o instanceof UserEntity && getUsername() != null) {
 			UserEntity u = (UserEntity)o;
@@ -81,10 +92,6 @@ public class UserEntity implements Serializable {
 	}
 
 	public List<SecurityRoleEntity> getRoles() {
-//		List<SecurityRoleEntity> hardcode = new ArrayList<SecurityRoleEntity>();
-//		hardcode.add(new SecurityRoleEntity("aaa", "rola1"));
-//		hardcode.add(new SecurityRoleEntity("aaa", "rola2"));
-//		
 		return roles;
 	}
 

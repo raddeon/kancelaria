@@ -6,6 +6,8 @@ public enum PrzyczynaBleduModyfikacji {
 	
 	WYBRANY_USER_MA_JUZ_TA_ROLE,
 	
-	NIE_MA_USERA_O_TAKIM_USERNAME;
+	NIE_MA_USERA_O_TAKIM_USERNAME,
+	
+	JEST_JUZ_TAKI_KLIENT;
 
 }

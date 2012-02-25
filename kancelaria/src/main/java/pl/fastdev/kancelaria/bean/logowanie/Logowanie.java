@@ -1,9 +1,6 @@
 package pl.fastdev.kancelaria.bean.logowanie;
 
-import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,15 +23,16 @@ public class Logowanie {
 	public void save() {
 		try {
 			userDao.save(user);
-		} catch (UserModificationException ex) {
+		} catch (DuplicateEntityException ex) {
 			succ = ex.getPrzyczyna().name();
 		}
 	}
 	
 	public void addRole() {
 		try {
+			int x =0;
 			userDao.addRoleToUser(user, rola);
-		} catch (UserModificationException ex) {
+		} catch (DuplicateEntityException ex) {
 			succ = ex.getPrzyczyna().name();
 		}
 	}
@@ -57,5 +55,17 @@ public class Logowanie {
 
 	public void setRola(Rola rola) {
 		this.rola = rola;
+	}
+
+	public UserDao getUserDao() {
+		return userDao;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
+	public void setSucc(String succ) {
+		this.succ = succ;
 	}
 }

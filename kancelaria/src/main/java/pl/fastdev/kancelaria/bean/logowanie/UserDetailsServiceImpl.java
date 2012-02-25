@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     UserEntity userEntity = null;
     try {
     	userEntity = dao.findByName(username);
-    } catch (UserModificationException ex) {
+    } catch (DuplicateEntityException ex) {
     	// jeœli nie ma takiego usera to rzucamy wyj¹tkiem zeby SS wiedzia³o co robiæ :)
       throw new UsernameNotFoundException("user not found");
     }
